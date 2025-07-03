@@ -18,7 +18,7 @@ WITH ranked_bids AS (
         ROW_NUMBER() OVER (PARTITION BY b.tender_id, b.product_id ORDER BY b.price DESC, b.id ASC) as bid_rank
     FROM bid as b
     JOIN tender_product tp ON b.tender_id = tp.id AND b.product_id = tp.product_id
-    WHERE b.tender_id = 1--a_id
+    WHERE b.tender_id = a_id
 ),
 cumulative_amounts AS (
     SELECT 
@@ -49,7 +49,7 @@ winning_update AS (
         t.total_amount
     FROM winning_calculations as t
 )
-select * from winning_update
+--select * from winning_update
 
 UPDATE bid as b
 SET 
