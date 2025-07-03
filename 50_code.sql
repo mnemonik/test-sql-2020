@@ -16,7 +16,6 @@ WITH ranked_bids AS (
         tp.start_price,
         tp.bid_step,
         ROW_NUMBER() OVER (PARTITION BY b.tender_id, b.product_id ORDER BY b.price DESC, b.id ASC) as bid_rank -- Добавляем номер строки в каждом окне
-
     FROM bid as b
     JOIN tender_product tp ON b.tender_id = tp.id AND b.product_id = tp.product_id
     WHERE b.tender_id = a_id
@@ -45,8 +44,7 @@ winning_update AS (
     SELECT 
         t.*,
         CASE WHEN (t.calculated_win_amount > 0 ) THEN true ELSE false END as is_winner,
-        CASE WHEN (t.calculated_win_amount = 0 or t.calculated_win_amount = t.amount) THEN NULL ELSE t.calculated_win_amount END as win_amount --Не пон
-ятно зачем там NULL если он выйграл
+        CASE WHEN (t.calculated_win_amount = 0 or t.calculated_win_amount = t.amount) THEN NULL ELSE t.calculated_win_amount END as win_amount --Не понятно зачем там NULL если он выйграл
         --CASE WHEN (t.calculated_win_amount = 0 ) THEN NULL ELSE t.calculated_win_amount END as win_amount --Правильный объем который выйграл
     FROM winning_calculations as t
 )
