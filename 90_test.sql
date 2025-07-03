@@ -19,6 +19,7 @@ INSERT INTO bid (id, tender_id, product_id, amount, price) VALUES
 
 SELECT bid_winner_set(1);
 
+\pset null '(null)'
 \pset footer off
 \o 90_test.res
 SELECT * FROM bid ORDER BY tender_id, product_id, price DESC, id -- внутри одной цены побеждает первое предложение
